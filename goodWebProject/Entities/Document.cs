@@ -13,7 +13,7 @@ namespace Entities
             SaleOrders,
             PurchaseOrders
         }
-        public int docID { get; set; }
+        public int ID { get; set; }
         public string saleTypeCode { get; } = "SO"; //SaleOrders
         public string purchasTypeCode { get; } = "PO";//PurchaseOrders
         public string documentType { get; set; }

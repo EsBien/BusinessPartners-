@@ -96,6 +96,7 @@ namespace DL
             {
                 DocId = saleOrderId,
                 Quantity = d.Quantity,
+                ItemCode = d.IteamCode,
                 CreateDate = DateTime.Now,
                 LastUpdateDate = null,
                 CreatedBy = d.UserCode,
@@ -110,7 +111,51 @@ namespace DL
             return d;
         }
 
+        //        • It’s not possible to update a document that doesn’t exists
+        //• It’s not possible to change the document type
+        //• It’s not possible to use a business partner of type V in a sale document
+        //• It’s not possible to use a business partner of type S in a purchase document
+        //• It’s not possible to change the business partner to an inactive one
+        //• It’s not possible to delete all the document lines
+        public async Task<Document> UpdateDocumentSaleOders(Document d)
+        {
+            SaleOrder saleOrder= _contextl.SaleOrders.FirstOrDefault(s =>s.Id ==d.ID);
+            if (saleOrder == null)
+            {
+                return null;
+            }
+            Bp bp = _contextl.Bps.FirstOrDefault(b => b.Bpcode == d.BPCode);
+            if (bp != null && bp.Bptype =="V" )
+                return null;
+          
+            SaleOrder newSaleOrder = saleOrder;
+            newSaleOrder.LastUpdateDate= DateTime.Now;
+            newSaleOrder.Bpcode = d.BPCode;
+            newSaleOrder.LastUpdatedBy= d.ID;
+        
+            _contextl.Entry(saleOrder).CurrentValues.SetValues(newSaleOrder);
+            await _contextl.SaveChangesAsync();
 
+            var saleOrderId = _contextl.SaleOrders.FirstOrDefaultAsync(p => p.Bpcode == saleOrder.Bpcode &&
+         p.CreateDate == saleOrder.CreateDate && p.CreatedBy == saleOrder.CreatedBy).Result.Id;
+            var currentSaleOdersLine = _contextl.SaleOrdersLines.FirstOrDefault(sl => sl.LineId ==
+                _contextl.SaleOrdersLines.FirstOrDefault(s => s.DocId == saleOrderId).LineId);
+            SaleOrdersLine saleOrdersLine = currentSaleOdersLine;
+    
+            saleOrdersLine.Quantity= d.Quantity;
+            saleOrdersLine.ItemCode= d.IteamCode;
+            saleOrdersLine.LastUpdateDate= DateTime.Now;
+            saleOrdersLine.CreatedBy= d.ID;
+            saleOrdersLine.LastUpdatedBy= d.ID;
+            _contextl.Entry(currentSaleOdersLine).CurrentValues.SetValues(saleOrdersLine);
+            await _contextl.SaveChangesAsync();
 
+            return d;
+        }
+
+        public async Task<Document> UpdateDocumentPurchasOders(Document d)
+        {
+            return d;
+        }
     }
 }

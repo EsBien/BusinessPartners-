@@ -11,5 +11,8 @@ namespace BL_
     {
         Task<Document> PostSaleOders(Document user);
         Task<Document> PostPurchasOders(Document user);
+
+        Task<Document> UpdateDocumentSaleOders(Document d);
+        Task<Document> UpdateDocumentPurchasOders(Document d);
     }
 }

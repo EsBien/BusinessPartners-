@@ -21,22 +21,24 @@ namespace MyFirstWebProject.Controllers
         {
             _documentBL = documentBL;
         }
+        private int getUserIdFromToken()
+        {
+            string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            // Retrieve the claims from the token
+            var claims = HttpContext.User.Claims.ToList();
 
+            string userId = HttpContext.User.FindFirst(c => c.Type.EndsWith("nameidentifier"))?.Value;
+            return int.Parse(userId);
+        }
         [HttpPost]
 
         public async Task<ActionResult<Document>> Post([FromBody] Document document)
         {
-
-            string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-            // Retrieve the claims from the token
-            var claims = HttpContext.User.Claims.ToList();
-      
-            string userId = HttpContext.User.FindFirst(c => c.Type.EndsWith("nameidentifier"))?.Value;
             Document documentToAdd = new Document ();
             if (document.documentType == document.saleTypeCode)
             {
      
-                document.UserCode = int.Parse(userId);
+                document.UserCode = getUserIdFromToken();
                documentToAdd = await _documentBL.PostSaleOders(document);
             }
          
@@ -44,7 +46,7 @@ namespace MyFirstWebProject.Controllers
             {
                 // var userId = HttpContext.Session.GetInt32("UserId");
                 //document.UserCode = int.Parse(userId.ToString());
-                document.UserCode = int.Parse(userId);
+                document.UserCode = getUserIdFromToken();
                 documentToAdd = await _documentBL.PostPurchasOders(document);
             }
             else { return BadRequest("not currect type was given!"); }
@@ -53,6 +55,27 @@ namespace MyFirstWebProject.Controllers
                 return BadRequest("cant add documet to db on or more fields are not valid");
             }
             return Ok(documentToAdd);
+        }
+
+        [HttpPut()]
+
+        public async Task<ActionResult<Document>> Put([FromBody] Document document)
+        {
+            Document updateDocument = new Document ();
+            document.ID = getUserIdFromToken();
+            if (document.documentType == document.saleTypeCode) { 
+                await _documentBL.UpdateDocumentSaleOders(document);
+            }
+            else if(document.documentType!= document.purchasTypeCode)
+            {
+                await _documentBL.UpdateDocumentPurchasOders(document);
+            }
+            //await _iuserBl.putUser(email, userToUpdate);
+            if(updateDocument== null)
+            {
+                return BadRequest("error in updating document");
+            }
+            return Ok(updateDocument);
         }
 
     }

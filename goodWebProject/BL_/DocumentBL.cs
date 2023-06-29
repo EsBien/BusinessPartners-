@@ -27,5 +27,15 @@ namespace BL_
         {
             return await _documenta.PostSaleOders(d);
         }
+
+        public async Task<Document> UpdateDocumentPurchasOders(Document d)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<Document> UpdateDocumentSaleOders(Document d)
+        {
+            return await _documenta.UpdateDocumentSaleOders(d);
+        }
     }
 }
