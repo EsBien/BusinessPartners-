@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>welcom to web</title>
+    <script src="myHome.js"></script>
+    <script src="vehicleType.js"></script>
+    <style>
+        input[type=text], select {
+            width: 50%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 30%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+        div {
+            width: 40%;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="vechil" onclick="getVehicle(1)">cars</button>
+    <button id="vechil" onclick="getVehicle(2)">buses</button>
+    <button  id="vechil" onclick="getVehicle(3)">vans</button>
+    <br /><br />
+    <div>
+
+        <label for="fname">email</label>
+        <input type="text" id="email" name="email..@" placeholder="Your name..">
+        <br />
+        <label for="lname">password</label>
+        <input type="text" id="password" name="password" placeholder="Your last name..">
+        <br />
+
+        <button onclick="addNowUser()">add new user</button>
+        <br />
+        <button onclick="login()">login</button>
+        <br /> <br /> <br />
+
+
+    </div>
+    <div id="newUser" style="display:none">
+        <input type="text" id="password1" placeholder="password " />
+        <br />
+        <input type="text" id="firstName1" placeholder="firstName" />
+        <br />
+        <input type="text" id="lastName1" placeholder="lastName" />
+        <br />
+        <input type="text" id="phoneNumber1" placeholder="phoneNumber" />
+        <br />
+        <input type="text" id="email1" placeholder="email" />
+        <button onclick="saveUser()">save details</button>
+    </div>
+</body>
+
+</html>
