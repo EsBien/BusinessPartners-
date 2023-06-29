@@ -53,6 +53,7 @@ namespace MyFirstWebProject
             services.AddScoped<IuserDL, UserDL>();
             services.AddScoped<IitemDL,IteamDL>();
             services.AddScoped<IitemBL,ItemBL>();
+            services.AddScoped<IBP_Dl, BP_DL>();
             services.AddScoped<IDocumentBL,DocumentBL>();
             services.AddScoped<IDocumentDL, DocumentDL>();
 

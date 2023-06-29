@@ -9,6 +9,6 @@ namespace BL_
 {
     public interface IitemBL
     {
-        Task<(IEnumerable<Bp> Records, int MaxPages)> ReadItems(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10);
+        Task<(IEnumerable<Item> Records, int MaxPages)> ReadItems(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10);
     }
 }

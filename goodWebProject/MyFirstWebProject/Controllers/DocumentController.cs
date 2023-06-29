@@ -33,14 +33,14 @@ namespace MyFirstWebProject.Controllers
       
             string userId = HttpContext.User.FindFirst(c => c.Type.EndsWith("nameidentifier"))?.Value;
             Document documentToAdd = new Document ();
-            if (document.documentType == document.saleType)
+            if (document.documentType == document.saleTypeCode)
             {
      
                 document.UserCode = int.Parse(userId);
                documentToAdd = await _documentBL.PostSaleOders(document);
             }
          
-            else if (document.documentType == document.purchasType) 
+            else if (document.documentType == document.purchasTypeCode) 
             {
                 // var userId = HttpContext.Session.GetInt32("UserId");
                 //document.UserCode = int.Parse(userId.ToString());

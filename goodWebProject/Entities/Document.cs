@@ -14,26 +14,13 @@ namespace Entities
             PurchaseOrders
         }
       
-        public string saleType { get; } = "SO"; //SaleOrders
-        public string purchasType { get; } = "PO";//PurchaseOrders
+        public string saleTypeCode { get; } = "SO"; //SaleOrders
+        public string purchasTypeCode { get; } = "PO";//PurchaseOrders
         public string documentType { get; set; }
         public string BPCode { get; set; }
         public string IteamCode { get; set; }
         public int UserCode { get; set; }
         public string Comment { get; set; }
-
-
-        //public List<PurchaseOrdersLine> Lines { get; set; }
-
-        //public Document()
-        //{
-        //    Lines = new List<PurchaseOrdersLine>();
-        //}
-
-        //public void AddLine(PurchaseOrdersLine line)
-        //{
-        //    Lines.Add(line);
-        //}
         public DateTime? CreateDate { get; set; }
 
         public DateTime? LastUpdateDate { get; set; }
@@ -41,5 +28,7 @@ namespace Entities
         public DateTime? CreateDateBy { get; set; }
 
         public DateTime? LastUpdateDateBy { get; set; }
+
+        public double Quantity { get; set; } =1;
     }
 }

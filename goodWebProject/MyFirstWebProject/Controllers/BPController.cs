@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,27 +15,28 @@ namespace MyFirstWebProject.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ItemController : ControllerBase
+    public class BPController : Controller
     {
-        IitemBL _iitemBL;
-        public ItemController(IitemBL iitemBL) {
-            _iitemBL = iitemBL;
+        IBP_BL _bp;
+        public BPController(IBP_BL bp)
+        {
+            _bp = bp;
         }
         [HttpGet]
 
-        public async Task<ActionResult<(IEnumerable<Item> Records, int MaxPages)>> ReadItems([FromQuery] string columnName = null, [FromQuery] string filterValue = null)
+        public async Task<ActionResult<(IEnumerable<Bp> Records, int MaxPages)>> ReadBP([FromQuery] string columnName = null, [FromQuery] string filterValue = null)
         {
-            IEnumerable<Item> records;
+            IEnumerable<Bp> records;
             int rows = 0;
-            (records, rows) = await _iitemBL.ReadItems(columnName, filterValue);
-            if(records == null)
+            (records, rows) = await _bp.ReadBP(columnName, filterValue);
+            if (records == null)
             {
                 return NotFound("no record found");
             }
             return Ok(records);
 
         }
-       
+
     }
-    
+
 }

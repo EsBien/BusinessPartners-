@@ -23,14 +23,14 @@ namespace DL
            _context = context;
         }
 
-        public async Task<(IEnumerable<Bp> Records, int MaxPages)> ReadItems(string columnName = null, string filterValue = null, int page = 1,int pageSize=10)
+        public async Task<(IEnumerable<Item> Records, int MaxPages)> ReadItems(string columnName = null, string filterValue = null, int page = 1,int pageSize=10)
         {
-            IQueryable<Bp> query = _context.Bps;
+            IQueryable<Item> query = _context.Items;
 
             if (!string.IsNullOrEmpty(columnName) && !string.IsNullOrEmpty(filterValue))
             {
                 // Filter the records based on the specified column name and value
-                query = query.Where(bp => EF.Property<string>(bp, columnName) == filterValue);
+                query = query.Where(Item => EF.Property<string>(Item, columnName) == filterValue);
             }
 
             int totalRecords = await query.CountAsync();
@@ -39,7 +39,7 @@ namespace DL
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             // Execute the query to retrieve the filtered and paginated records asynchronously
-            List<Bp> records = await query.ToListAsync();
+            List<Item> records = await query.ToListAsync();
 
             return (records, maxPages);
         }
