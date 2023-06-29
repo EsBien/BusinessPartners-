@@ -34,15 +34,14 @@ namespace MyFirstWebProject.Controllers
 
         public async Task<ActionResult<Document>> Post([FromBody] Document document)
         {
-            Document documentToAdd = new Document ();
+            Document documentToAdd = new Document();
+            document.UserCode = getUserIdFromToken();
             if (document.documentType == document.saleTypeCode)
             {
-     
-                document.UserCode = getUserIdFromToken();
-               documentToAdd = await _documentBL.PostSaleOders(document);
+                documentToAdd = await _documentBL.PostSaleOders(document);
             }
-         
-            else if (document.documentType == document.purchasTypeCode) 
+
+            else if (document.documentType == document.purchasTypeCode)
             {
                 // var userId = HttpContext.Session.GetInt32("UserId");
                 //document.UserCode = int.Parse(userId.ToString());
@@ -50,7 +49,7 @@ namespace MyFirstWebProject.Controllers
                 documentToAdd = await _documentBL.PostPurchasOders(document);
             }
             else { return BadRequest("not currect type was given!"); }
-            if(document == null)
+            if (document == null)
             {
                 return BadRequest("cant add documet to db on or more fields are not valid");
             }
@@ -61,17 +60,17 @@ namespace MyFirstWebProject.Controllers
 
         public async Task<ActionResult<Document>> Put([FromBody] Document document)
         {
-            Document updateDocument = new Document ();
-            document.ID = getUserIdFromToken();
-            if (document.documentType == document.saleTypeCode) { 
+            Document updateDocument = new Document();
+            document.UserCode = getUserIdFromToken();
+            if (document.documentType == document.saleTypeCode)
+            {
                 await _documentBL.UpdateDocumentSaleOders(document);
             }
-            else if(document.documentType!= document.purchasTypeCode)
+            else if (document.documentType != document.purchasTypeCode)
             {
                 await _documentBL.UpdateDocumentPurchasOders(document);
             }
-            //await _iuserBl.putUser(email, userToUpdate);
-            if(updateDocument== null)
+            if (updateDocument == null)
             {
                 return BadRequest("error in updating document");
             }

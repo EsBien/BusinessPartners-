@@ -11,31 +11,31 @@ namespace BL_
 {
     public class DocumentBL : IDocumentBL
     {
-        IDocumentDL _documenta;
+        IDocumentDL _document;
         public DocumentBL(IDocumentDL documenta)
         {
-            _documenta = documenta;
+            _document = documenta;
         }
 
         public async Task<Document> PostPurchasOders(Document d)
         {
           
-            return await _documenta.PostPurchasOders(d);
+            return await _document.PostPurchasOders(d);
         }
 
         public async Task<Document> PostSaleOders(Document d)
         {
-            return await _documenta.PostSaleOders(d);
+            return await _document.PostSaleOders(d);
         }
 
         public async Task<Document> UpdateDocumentPurchasOders(Document d)
         {
-            throw new NotImplementedException();
+            return await _document.UpdateDocumentPurchasOders(d);
         }
 
         public async Task<Document> UpdateDocumentSaleOders(Document d)
         {
-            return await _documenta.UpdateDocumentSaleOders(d);
+            return await _document.UpdateDocumentSaleOders(d);
         }
     }
 }
