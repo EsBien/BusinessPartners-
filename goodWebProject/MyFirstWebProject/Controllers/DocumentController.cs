@@ -26,30 +26,32 @@ namespace MyFirstWebProject.Controllers
 
         public async Task<ActionResult<Document>> Post([FromBody] Document document)
         {
-            string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
 
+            string token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
             // Retrieve the claims from the token
             var claims = HttpContext.User.Claims.ToList();
-            string userId1 = claims.FirstOrDefault(c => c.Type == "nameidentifier")?.Value;
-            string userId2 = claims.FirstOrDefault(c => c.Type == "name")?.Value;
-            //string userId = HttpContext.User.FindFirst(userIdClaimType)?.Value; claims[0].Type.EndsWith("nameidentifier") nameidentifier
+      
+            string userId = HttpContext.User.FindFirst(c => c.Type.EndsWith("nameidentifier"))?.Value;
             Document documentToAdd = new Document ();
             if (document.documentType == document.saleType)
             {
      
-                document.UserCode = int.Parse(userId1);
+                document.UserCode = int.Parse(userId);
                documentToAdd = await _documentBL.PostSaleOders(document);
             }
          
-            else if (document.documentType == document.purchasType)
+            else if (document.documentType == document.purchasType) 
             {
-                //var userId = HttpContext.Session.GetInt32("UserId");
+                // var userId = HttpContext.Session.GetInt32("UserId");
                 //document.UserCode = int.Parse(userId.ToString());
-                document.UserCode = int.Parse(userId1);
+                document.UserCode = int.Parse(userId);
                 documentToAdd = await _documentBL.PostPurchasOders(document);
             }
             else { return BadRequest("not currect type was given!"); }
-       
+            if(document == null)
+            {
+                return BadRequest("cant add documet to db on or more fields are not valid");
+            }
             return Ok(documentToAdd);
         }
 

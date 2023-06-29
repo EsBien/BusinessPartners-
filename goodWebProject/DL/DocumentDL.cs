@@ -32,20 +32,21 @@ namespace DL
             {
                 return null;
             }
-
-            UserTbl getUser = _contextl.UserTbls.FindAsync(d.UserCode).Result;
+    
             ////var userId = HttpContext.Session.GetInt32("UserId");
             PurchaseOrder purchaseOrder = new PurchaseOrder
             {
                 Bpcode = d.BPCode,
                 CreateDate = DateTime.Now,
                 LastUpdateDate = null,
-                CreatedBy = getUser.Id,
+                CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
             await _contextl.PurchaseOrders.AddAsync(purchaseOrder);
             await _contextl.SaveChangesAsync();
             d.CreateDate= DateTime.Now;
+            d.LastUpdateDate = null;
+            d.LastUpdateDateBy = null;
             return d;
         }
 
