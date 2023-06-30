@@ -1,4 +1,7 @@
 # Business Partners API
+***note** The name myfirstProject was a default name on my vs and changing the name created errors. </br>
+I left the name but in the middle fixing it, but this is not my first project!! </br>
+
 This project provides a Web API for managing business partners. </br>
 It is built using C# with .NET 6 and SQL Server. The API supports various operations, </br>
 including login, retrieving items and business partners, adding, updating, and deleting documents </br>
