@@ -85,6 +85,14 @@ namespace MyFirstWebProject.Controllers
             {
                 await _documentBL.DeleteSaleOders(id);
             }
+            else if(type==DocumentType.PurchaseOrders)
+            {
+                await _documentBL.DeletePurchasOders(id);
+            }
+            else
+            {
+                return BadRequest("no such type in DB");
+            }
             return Ok();
         }
     

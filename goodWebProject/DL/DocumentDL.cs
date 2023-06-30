@@ -240,5 +240,18 @@ namespace DL
              _context.SaleOrders.Remove(saleOrder);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeletePurchasOders(int id)
+        {
+            PurchaseOrder purchaseOrder = _context.PurchaseOrders.FirstOrDefaultAsync(s => s.Id == id).Result;
+            if (purchaseOrder == null)
+                return;
+            var purchasOderLines = _context.PurchaseOrdersLines.Where(s => s.DocId == purchaseOrder.Id).ToList();
+           
+            purchasOderLines.ForEach(s => _context.PurchaseOrdersLines.Remove(s));
+            await _context.SaveChangesAsync();
+            _context.PurchaseOrders.Remove(purchaseOrder);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace DL
         Task<Document> UpdateDocumentPurchasOders(Document d);
 
         Task DeleteSaleOders(int id);
+        Task DeletePurchasOders(int id);
     }
 }

@@ -16,8 +16,6 @@ namespace Entities
     {
       
         public int ID { get; set; }
-        //public string saleTypeCode { get; } = "SO"; //SaleOrders
-        //public string purchasTypeCode { get; } = "PO";//PurchaseOrders
         public string documentType { get; set; }
         public string BPCode { get; set; }
         public string IteamCode { get; set; }

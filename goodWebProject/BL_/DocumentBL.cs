@@ -17,6 +17,11 @@ namespace BL_
             _document = documenta;
         }
 
+        public async Task DeletePurchasOders(int id)
+        {
+            await _document.DeletePurchasOders(id);
+        }
+
         public async Task DeleteSaleOders(int id)
         {
             await _document.DeleteSaleOders(id);
