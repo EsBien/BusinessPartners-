@@ -14,5 +14,7 @@ namespace BL_
 
         Task<Document> UpdateDocumentSaleOders(Document d);
         Task<Document> UpdateDocumentPurchasOders(Document d);
+
+        Task DeleteSaleOders(int id);
     }
 }

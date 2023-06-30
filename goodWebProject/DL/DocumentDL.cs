@@ -19,15 +19,15 @@ namespace DL
 {
     public class DocumentDL : IDocumentDL
     {
-        BusinessPartnersContext _contextl;
+        BusinessPartnersContext _context;
         public DocumentDL(BusinessPartnersContext businessPartnersContext) { 
-                _contextl = businessPartnersContext;
+                _context = businessPartnersContext;
         }
 
         private bool checkDocument(Document d , string bpTpe)
         {
-            Bp getBP = _contextl.Bps.FindAsync(d.BPCode).Result;
-            Item item = _contextl.Items.FindAsync(d.IteamCode).Result;
+            Bp getBP = _context.Bps.FindAsync(d.BPCode).Result;
+            Item item = _context.Items.FindAsync(d.IteamCode).Result;
             if (getBP.Active != true || getBP.Bptype == bpTpe || item.Active != true || d.Quantity > 0)
             {
                 return false;
@@ -49,9 +49,9 @@ namespace DL
                 CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
-            await _contextl.PurchaseOrders.AddAsync(purchaseOrder);
-            await _contextl.SaveChangesAsync();
-            var purchaseOrderId = _contextl.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode== purchaseOrder.Bpcode &&
+            await _context.PurchaseOrders.AddAsync(purchaseOrder);
+            await _context.SaveChangesAsync();
+            var purchaseOrderId = _context.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode== purchaseOrder.Bpcode &&
             p.CreateDate==purchaseOrder.CreateDate && p.CreatedBy == purchaseOrder.CreatedBy).Result.Id;
             PurchaseOrdersLine purchaseOrdersLine = new PurchaseOrdersLine
             {
@@ -62,8 +62,8 @@ namespace DL
                 CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
-            await _contextl.PurchaseOrdersLines.AddAsync(purchaseOrdersLine);
-            await _contextl.SaveChangesAsync();
+            await _context.PurchaseOrdersLines.AddAsync(purchaseOrdersLine);
+            await _context.SaveChangesAsync();
             d.setCreateDate(purchaseOrder.CreateDate);
             d.setCreateDate(purchaseOrder.CreateDate);
             d.LastUpdateDate = null;
@@ -81,8 +81,8 @@ namespace DL
                 CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
-            await _contextl.SaleOrders.AddAsync(saleOrder);
-            await _contextl.SaveChangesAsync();
+            await _context.SaleOrders.AddAsync(saleOrder);
+            await _context.SaveChangesAsync();
             return saleOrder;
         }
         private async Task<SaleOrdersLine> addSaleOderLinesToDB(Document d,int saleOrderId)
@@ -98,8 +98,8 @@ namespace DL
                 CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
-            await _contextl.SaleOrdersLines.AddAsync(saleOrdersLine);
-            await _contextl.SaveChangesAsync();
+            await _context.SaleOrdersLines.AddAsync(saleOrdersLine);
+            await _context.SaveChangesAsync();
             return saleOrdersLine;
         }
         private async Task<SaleOrdersLinesComment> addSaleOderLinesCommensToDB(Document d, int saleOrderId,int saleOrdersLineId)
@@ -111,8 +111,8 @@ namespace DL
                 LineId = saleOrderId,
                 Comment = d.Comment
             };
-            await _contextl.SaleOrdersLinesComments.AddAsync(saleOrdersLineComment);
-            await _contextl.SaveChangesAsync();
+            await _context.SaleOrdersLinesComments.AddAsync(saleOrdersLineComment);
+            await _context.SaveChangesAsync();
             return saleOrdersLineComment;
         }
         public async Task<Document> PostSaleOders(Document d)
@@ -125,13 +125,13 @@ namespace DL
             ////var userId = HttpContext.Session.GetInt32("UserId");
             SaleOrder saleOrder = await addSaleOderToDB(d);
            
-            var saleOrderId = _contextl.SaleOrders.FirstOrDefaultAsync(p => p.Bpcode == saleOrder.Bpcode &&
+            var saleOrderId = _context.SaleOrders.FirstOrDefaultAsync(p => p.Bpcode == saleOrder.Bpcode &&
             p.CreateDate == saleOrder.CreateDate && p.CreatedBy == saleOrder.CreatedBy).Result.Id;
 
 
             SaleOrdersLine saleOrdersLine =await addSaleOderLinesToDB(d,saleOrderId);
 
-            var saleOderLineId = _contextl.SaleOrdersLines.FirstOrDefaultAsync(d => d.Doc == saleOrdersLine.Doc && d.CreateDate == saleOrdersLine.CreateDate);
+            var saleOderLineId = _context.SaleOrdersLines.FirstOrDefaultAsync(d => d.Doc == saleOrdersLine.Doc && d.CreateDate == saleOrdersLine.CreateDate);
 
             SaleOrdersLinesComment saleOrdersLineComment = await addSaleOderLinesCommensToDB(d, saleOrderId, saleOrdersLine.LineId);
 
@@ -151,12 +151,12 @@ namespace DL
         //• It’s not possible to delete all the document lines
         public async Task<Document> UpdateDocumentSaleOders(Document d)
         {
-            SaleOrder saleOrder= _contextl.SaleOrders.FirstOrDefault(s =>s.Id ==d.ID);
+            SaleOrder saleOrder= _context.SaleOrders.FirstOrDefault(s =>s.Id ==d.ID);
             if (saleOrder == null)
             {
                 return null;
             }
-            Bp bp = _contextl.Bps.FirstOrDefault(b => b.Bpcode == d.BPCode);
+            Bp bp = _context.Bps.FirstOrDefault(b => b.Bpcode == d.BPCode);
             if (bp != null && bp.Bptype =="V" )
                 return null;
           
@@ -165,33 +165,33 @@ namespace DL
             newSaleOrder.Bpcode = d.BPCode;
             newSaleOrder.LastUpdatedBy= d.UserCode;
         
-            _contextl.Entry(saleOrder).CurrentValues.SetValues(newSaleOrder);
-            await _contextl.SaveChangesAsync();
+            _context.Entry(saleOrder).CurrentValues.SetValues(newSaleOrder);
+            await _context.SaveChangesAsync();
 
-            var saleOrderId = _contextl.SaleOrders.FirstOrDefaultAsync(p => p.Bpcode == saleOrder.Bpcode &&
+            var saleOrderId = _context.SaleOrders.FirstOrDefaultAsync(p => p.Bpcode == saleOrder.Bpcode &&
          p.CreateDate == saleOrder.CreateDate && p.CreatedBy == saleOrder.CreatedBy).Result.Id;
-            var currentSaleOdersLine = _contextl.SaleOrdersLines.FirstOrDefault(sl => sl.LineId ==
-                _contextl.SaleOrdersLines.FirstOrDefault(s => s.DocId == saleOrderId).LineId);
+            var currentSaleOdersLine = _context.SaleOrdersLines.FirstOrDefault(sl => sl.LineId ==
+                _context.SaleOrdersLines.FirstOrDefault(s => s.DocId == saleOrderId).LineId);
             SaleOrdersLine saleOrdersLine = currentSaleOdersLine;
     
             saleOrdersLine.Quantity= d.Quantity;
             saleOrdersLine.ItemCode= d.IteamCode;
             saleOrdersLine.LastUpdateDate= DateTime.Now;
             saleOrdersLine.LastUpdatedBy= d.UserCode;
-            _contextl.Entry(currentSaleOdersLine).CurrentValues.SetValues(saleOrdersLine);
-            await _contextl.SaveChangesAsync();
+            _context.Entry(currentSaleOdersLine).CurrentValues.SetValues(saleOrdersLine);
+            await _context.SaveChangesAsync();
 
             return d;
         }
 
         public async Task<Document> UpdateDocumentPurchasOders(Document d)
         {
-            PurchaseOrder PurchaseOrder = _contextl.PurchaseOrders.FirstOrDefault(s => s.Id == d.ID);
+            PurchaseOrder PurchaseOrder = _context.PurchaseOrders.FirstOrDefault(s => s.Id == d.ID);
             if (PurchaseOrder == null)
             {
                 return null;
             }
-            Bp bp = _contextl.Bps.FirstOrDefault(b => b.Bpcode == d.BPCode);
+            Bp bp = _context.Bps.FirstOrDefault(b => b.Bpcode == d.BPCode);
             if (bp != null && bp.Bptype == "S")
                 return null;
 
@@ -200,13 +200,13 @@ namespace DL
             PurchaseOrder.Bpcode = d.BPCode;
             PurchaseOrder.LastUpdatedBy = d.UserCode;
 
-            _contextl.Entry(PurchaseOrder).CurrentValues.SetValues(newPurchaseOrder);
-            await _contextl.SaveChangesAsync();
+            _context.Entry(PurchaseOrder).CurrentValues.SetValues(newPurchaseOrder);
+            await _context.SaveChangesAsync();
 
-            var purchasOrderId = _contextl.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode == PurchaseOrder.Bpcode &&
+            var purchasOrderId = _context.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode == PurchaseOrder.Bpcode &&
          p.CreateDate == PurchaseOrder.CreateDate && p.CreatedBy == PurchaseOrder.CreatedBy).Result.Id;
-            var currentPurchasOdersLine = _contextl.PurchaseOrdersLines.FirstOrDefault(sl => sl.LineId ==
-                _contextl.PurchaseOrdersLines.FirstOrDefault(s => s.DocId == purchasOrderId).LineId);
+            var currentPurchasOdersLine = _context.PurchaseOrdersLines.FirstOrDefault(sl => sl.LineId ==
+                _context.PurchaseOrdersLines.FirstOrDefault(s => s.DocId == purchasOrderId).LineId);
             PurchaseOrdersLine purchaseOrdersLine = currentPurchasOdersLine;
 
             purchaseOrdersLine.Quantity = d.Quantity;
@@ -214,10 +214,31 @@ namespace DL
             purchaseOrdersLine.LastUpdateDate = DateTime.Now;
             purchaseOrdersLine.CreatedBy = d.ID;
             purchaseOrdersLine.LastUpdatedBy = d.ID;
-            _contextl.Entry(currentPurchasOdersLine).CurrentValues.SetValues(purchaseOrdersLine);
-            await _contextl.SaveChangesAsync();
+            _context.Entry(currentPurchasOdersLine).CurrentValues.SetValues(purchaseOrdersLine);
+            await _context.SaveChangesAsync();
 
             return d;
+        }
+
+        public async Task DeleteSaleOders(int id)
+        {
+            SaleOrder saleOrder = _context.SaleOrders.FirstOrDefaultAsync(s => s.Id == id).Result;
+            if (saleOrder == null)
+                return;
+            var saleOrdersLine = _context.SaleOrdersLines.Where(s => s.DocId == saleOrder.Id).ToList();
+            foreach( var s in saleOrdersLine)
+            {
+                SaleOrdersLinesComment comment = _context.SaleOrdersLinesComments.FirstOrDefault(a => a.LineId == s.LineId && s.DocId == a.DocId);
+                if(comment!=null)
+                {
+                    _context.SaleOrdersLinesComments.Remove(comment);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            saleOrdersLine.ForEach(s => _context.SaleOrdersLines.Remove(s));
+            await _context.SaveChangesAsync();
+             _context.SaleOrders.Remove(saleOrder);
+            await _context.SaveChangesAsync();
         }
     }
 }

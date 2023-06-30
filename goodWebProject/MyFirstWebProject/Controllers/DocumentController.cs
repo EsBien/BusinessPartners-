@@ -36,12 +36,12 @@ namespace MyFirstWebProject.Controllers
         {
             Document documentToAdd = new Document();
             document.UserCode = getUserIdFromToken();
-            if (document.documentType == document.saleTypeCode)
+            if (document.documentType == DocumentType.SaleOrders)
             {
                 documentToAdd = await _documentBL.PostSaleOders(document);
             }
 
-            else if (document.documentType == document.purchasTypeCode)
+            else if (document.documentType == DocumentType.PurchaseOrders)
             {
                 // var userId = HttpContext.Session.GetInt32("UserId");
                 //document.UserCode = int.Parse(userId.ToString());
@@ -62,11 +62,11 @@ namespace MyFirstWebProject.Controllers
         {
             Document updateDocument = new Document();
             document.UserCode = getUserIdFromToken();
-            if (document.documentType == document.saleTypeCode)
+            if (document.documentType == DocumentType.SaleOrders)
             {
                 await _documentBL.UpdateDocumentSaleOders(document);
             }
-            else if (document.documentType != document.purchasTypeCode)
+            else if (document.documentType != DocumentType.PurchaseOrders)
             {
                 await _documentBL.UpdateDocumentPurchasOders(document);
             }
@@ -77,5 +77,16 @@ namespace MyFirstWebProject.Controllers
             return Ok(updateDocument);
         }
 
+        [HttpDelete("{id}/{type}")]
+        public async Task<ActionResult> Delete(int id, string type)
+        {
+            
+            if (type == DocumentType.SaleOrders)
+            {
+                await _documentBL.DeleteSaleOders(id);
+            }
+            return Ok();
+        }
+    
     }
 }

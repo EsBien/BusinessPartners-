@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace Entities
 {
+     public struct DocumentType
+    {
+        public const string SaleOrders = "SO";
+        public const string PurchaseOrders ="PO";
+    }
     public class Document
     {
-        public enum DocumentType
-        {
-            SaleOrders,
-            PurchaseOrders
-        }
+      
         public int ID { get; set; }
-        public string saleTypeCode { get; } = "SO"; //SaleOrders
-        public string purchasTypeCode { get; } = "PO";//PurchaseOrders
+        //public string saleTypeCode { get; } = "SO"; //SaleOrders
+        //public string purchasTypeCode { get; } = "PO";//PurchaseOrders
         public string documentType { get; set; }
         public string BPCode { get; set; }
         public string IteamCode { get; set; }
