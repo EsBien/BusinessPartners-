@@ -95,6 +95,32 @@ namespace MyFirstWebProject.Controllers
             }
             return Ok();
         }
-    
+
+
+        [HttpGet("{id}/{type}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<DocumentDTO>> Get(int id,string type)
+        {
+            DocumentDTO newDocument=null;
+            if (type == DocumentType.SaleOrders)
+            {
+                newDocument =await _documentBL.GetDocumentSaleOder(id);
+                newDocument.documentType= type;
+            }
+            else if (type == DocumentType.PurchaseOrders)
+            {
+                newDocument =await _documentBL.GetDocumentPurchasOder(id);
+                newDocument.documentType = type;
+            }
+            else
+            {
+                return BadRequest("no such type in DB");
+            }
+            if (newDocument == null)
+                BadRequest("no document in db");
+            
+            return Ok(newDocument);
+        }
+
     }
 }

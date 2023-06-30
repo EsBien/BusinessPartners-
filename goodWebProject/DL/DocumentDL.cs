@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTO;
+using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -253,5 +254,69 @@ namespace DL
             _context.PurchaseOrders.Remove(purchaseOrder);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<DocumentDTO> GetDocumentSaleOder(int id)
+        {
+            SaleOrder saleOrder = _context.SaleOrders.FirstOrDefault(s => s.Id == id);
+            if (saleOrder == null)
+                return null;
+            SaleOrdersLine saleOrdersLine = _context.SaleOrdersLines.FirstOrDefault(s => s.DocId == saleOrder.Id);
+            if (saleOrdersLine == null)
+                return null;
+            SaleOrdersLinesComment saleOrdersLinesComment = _context.SaleOrdersLinesComments.FirstOrDefault(s => s.DocId == saleOrder.Id && s.LineId == saleOrdersLine.LineId);
+            UserTbl user = _context.UserTbls.FirstOrDefault(u => u.Id == saleOrder.CreatedBy);
+            Bp bp = _context.Bps.FirstOrDefault(b => b.Bpcode == saleOrder.Bpcode);
+            Item item = await _context.Items.FirstOrDefaultAsync(o => o.ItemCode == saleOrdersLine.ItemCode);
+            DocumentDTO documentDTO = new DocumentDTO()
+            {
+                ID = id,
+                BPCode = saleOrder.Bpcode,
+                BPName = bp != null ? bp.Bpname : "",
+                userFullName = user!=null ? user.FullName :"",
+                itemName = item != null ? item.ItemName :"",
+                isActivItem = item != null ? item.Active : false,
+                IteamCode = item != null ? item.ItemCode :"",
+                UserCode = user.Id,
+                Comment = saleOrdersLinesComment != null ? saleOrdersLinesComment.Comment :"",
+                CreateDate = saleOrder.CreateDate,
+                CreateDateBy = saleOrder.CreatedBy,
+                LastUpdateDate = saleOrder.LastUpdateDate,
+                LastUpdateDateBy = saleOrder.LastUpdatedBy,
+                Quantity= saleOrdersLine.Quantity
+            };
+            return documentDTO;
+        }
+
+        public async Task<DocumentDTO> GetDocumentPurchasOder(int id)
+        {
+
+            PurchaseOrder purchasOrder = _context.PurchaseOrders.FirstOrDefault(s => s.Id == id);
+            if (purchasOrder == null)
+                return null;
+            PurchaseOrdersLine purchasOrdersLine = _context.PurchaseOrdersLines.FirstOrDefault(s => s.DocId == purchasOrder.Id);
+            if (purchasOrdersLine == null)
+                return null;
+            UserTbl user =await _context.UserTbls.FirstOrDefaultAsync(u => u.Id == purchasOrder.CreatedBy);
+            Bp bp = await _context.Bps.FirstOrDefaultAsync(b => b.Bpcode == purchasOrder.Bpcode);
+            Item item = await _context.Items.FirstOrDefaultAsync(o => o.ItemCode == purchasOrdersLine.ItemCode);
+            DocumentDTO documentDTO = new DocumentDTO()
+            {
+                ID = id,
+                BPCode = purchasOrder.Bpcode,
+                BPName = bp != null ? bp.Bpname : "",
+                userFullName = user != null ? user.FullName : "",
+                itemName = item != null ? item.ItemName : "",
+                isActivItem = item != null ? item.Active : false,
+                IteamCode = item != null ? item.ItemCode : "",
+                UserCode = user.Id,
+                CreateDate = purchasOrder.CreateDate,
+                CreateDateBy = purchasOrder.CreatedBy,
+                LastUpdateDate = purchasOrder.LastUpdateDate,
+                LastUpdateDateBy = purchasOrder.LastUpdatedBy,
+                Quantity = purchasOrdersLine.Quantity
+            };
+            return documentDTO;
+        }
     }
+    
 }

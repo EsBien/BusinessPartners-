@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using DTO;
+
 namespace BL_
 {
     public interface IDocumentBL
@@ -18,5 +20,7 @@ namespace BL_
         Task DeleteSaleOders(int id);
 
         Task DeletePurchasOders(int id);
+        Task<DocumentDTO> GetDocumentSaleOder(int id);
+        Task<DocumentDTO> GetDocumentPurchasOder(int id);
     }
 }

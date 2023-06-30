@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DL;
+using DTO;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,6 +47,15 @@ namespace BL_
         public async Task<Document> UpdateDocumentSaleOders(Document d)
         {
             return await _document.UpdateDocumentSaleOders(d);
+        }
+        public async Task<DocumentDTO> GetDocumentSaleOder(int id)
+        {
+            return await _document.GetDocumentSaleOder(id);
+        }
+
+        public async Task<DocumentDTO> GetDocumentPurchasOder(int id)
+        {
+            return await _document.GetDocumentPurchasOder(id);
         }
     }
 }
