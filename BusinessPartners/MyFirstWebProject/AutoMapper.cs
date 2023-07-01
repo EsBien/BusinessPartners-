@@ -14,8 +14,7 @@ namespace MyFirstWebProject
         {
            // CreateMap<OrdersTbl, order_DTO>().ReverseMap();
            // CreateMap<CustomerTbl, customer_DTO>().ReverseMap();
-           //// CreateMap<List<VehicleDesignsTbl>, List<Design_DTO>>();
-           // CreateMap<VehicleDesignsTbl, Design_DTO>();
+          
         }
     }
 }
