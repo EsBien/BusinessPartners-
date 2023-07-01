@@ -27,7 +27,7 @@ Copy code : </br>
 git clone [https://github.com/your-username/business-partners-api.git](https://github.com/EsBien/BusinessPartners-.git) </br>
 2. Open the project in your preferred IDE (e.g., Visual Studio) or use the command line. </br>
 3. Configure the database connection by updating the appsettings.json file with your SQL Server connection details. </br>
-4. Run the project to start the API server. The Swagger UI should be accessible at http://localhost:5000/swagger. </br>
+4. Run the project to start the API server. The Swagger UI should be accessible at [http://localhost:<port>/swagger](https://localhost:7072/swagger/index.html). </br>
 5. Use the Swagger UI or any API testing tool (e.g., Postman) to interact with the API endpoints. </br>
 
 # Error Handling
