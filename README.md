@@ -1,6 +1,7 @@
 # Business Partners API
-***note** The name myfirstProject was a default name on my vs and changing the name created errors. </br>
-I left the name but in the middle fixing it, but this is not my first project!! </br>
+***note** The  name "myfirstProject" sln is defule in my Visual Studio,I tried to change it but caused some errors . </br>
+Due to time constraints and the importance of the project, I decided to keep the default name for now. </br>
+Please note that this is not my first project, and I have successfully completed several projects in the past </br>
 
 This project provides a Web API for managing business partners. </br>
 It is built using C# with .NET 6 and SQL Server. The API supports various operations, </br>
