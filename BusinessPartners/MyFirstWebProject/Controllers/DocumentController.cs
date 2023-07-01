@@ -98,7 +98,6 @@ namespace MyFirstWebProject.Controllers
 
 
         [HttpGet("{id}/{type}")]
-        [AllowAnonymous]
         public async Task<ActionResult<DocumentDTO>> Get(int id,string type)
         {
             DocumentDTO newDocument=null;
