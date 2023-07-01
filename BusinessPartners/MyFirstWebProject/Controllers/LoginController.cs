@@ -56,7 +56,6 @@ namespace MyFirstWebProject.Controllers
 
             //HttpContext.Session.SetInt32("UserId", user.Id);
             //HttpContext.Session.SetString("Username", user.UserName);
-            var a = HttpContext.Response.Headers;
             
             string token = CreateToken(user);
 

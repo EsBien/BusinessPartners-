@@ -15,7 +15,7 @@ namespace MyFirstWebProject
     public class RatingMiddleware
     {
         private readonly RequestDelegate _next;
-        //VehicleRentals_dbContext _VehicleRentals_dbContext;
+        
         public RatingMiddleware(RequestDelegate next)
         {
             _next = next;
