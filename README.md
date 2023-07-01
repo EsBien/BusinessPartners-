@@ -1,5 +1,5 @@
 # Business Partners API
-***note** The  name "myfirstProject" sln is defule in my Visual Studio,I tried to change it but caused some errors . </br>
+***note** The  name "myfirstProject" sln is default in my Visual Studio,I tried to change it but caused some errors . </br>
 Due to time constraints and the importance of the project, I decided to keep the default name for now. </br>
 Please note that this is not my first project, and I have successfully completed several projects in the past </br>
 
