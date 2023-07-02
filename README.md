@@ -46,3 +46,4 @@ These include checking document types, active business partners, document line p
 The project uses Entity Framework Core for database interaction. </br>
 To set up the initial database schema and seed data, run the following command in the Package Manager Console: </br>
 "Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" </br>
+...
