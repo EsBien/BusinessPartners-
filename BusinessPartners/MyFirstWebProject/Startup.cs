@@ -130,9 +130,17 @@ namespace MyFirstWebProject
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BusinessPartners v1"));
             }
-            app.UseCors(AllowSpecificOrigins);
+            
+           
+            logger.LogInformation("server is up"); 
+
+
+            app.UseErrorMiddleware();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             // It sets the policy to restrict the sources from which certain content can be loaded, such as scripts and images
-            app.Use(async (context, next) => 
+            app.Use(async (context, next) =>
             {
                 context.Response.Headers.Add(
                     "Content-Security-Policy",
@@ -141,12 +149,6 @@ namespace MyFirstWebProject
                     "img-src 'self'");
                 await next();
             });
-            logger.LogInformation("server is up"); 
-
-
-            app.UseErrorMiddleware();
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
 
             app.Use(async (context, next) =>
             {
@@ -161,9 +163,9 @@ namespace MyFirstWebProject
 
                 await next();
             });
-
-
+           
             app.UseRouting();
+            app.UseCors(AllowSpecificOrigins);
             app.UseAuthentication(); // Add this line before UseAuthorization()
 
             app.UseAuthorization();

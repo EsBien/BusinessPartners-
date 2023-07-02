@@ -116,6 +116,33 @@ namespace DL
             await _context.SaveChangesAsync();
             return saleOrdersLineComment;
         }
+
+        private async Task<PurchaseOrder> updatePurchasOders(Document d, PurchaseOrder purchaseOrder)
+        {
+
+            PurchaseOrder newPurchaseOrder = purchaseOrder;
+            newPurchaseOrder.LastUpdateDate = DateTime.Now;
+            newPurchaseOrder.Bpcode = d.BPCode;
+            newPurchaseOrder.LastUpdatedBy = d.UserCode;
+
+            _context.Entry(purchaseOrder).CurrentValues.SetValues(newPurchaseOrder);
+            await _context.SaveChangesAsync();
+            return newPurchaseOrder;
+        }
+        private async Task<PurchaseOrdersLine> updatePurchasOdersLinse(Document d, PurchaseOrdersLine currentPurchasOdersLine)
+        {
+
+            PurchaseOrdersLine purchaseOrdersLine = currentPurchasOdersLine;
+
+            purchaseOrdersLine.Quantity = d.Quantity;
+            purchaseOrdersLine.ItemCode = d.IteamCode;
+            purchaseOrdersLine.LastUpdateDate = DateTime.Now;
+            purchaseOrdersLine.CreatedBy = d.ID;
+            purchaseOrdersLine.LastUpdatedBy = d.ID;
+            _context.Entry(currentPurchasOdersLine).CurrentValues.SetValues(purchaseOrdersLine);
+            await _context.SaveChangesAsync();
+            return purchaseOrdersLine;
+        }
         public async Task<Document> PostSaleOders(Document d)
         {
             if (checkDocument(d,"V"))
@@ -187,8 +214,8 @@ namespace DL
 
         public async Task<Document> UpdateDocumentPurchasOders(Document d)
         {
-            PurchaseOrder PurchaseOrder = _context.PurchaseOrders.FirstOrDefault(s => s.Id == d.ID);
-            if (PurchaseOrder == null)
+            PurchaseOrder purchaseOrder = _context.PurchaseOrders.FirstOrDefault(s => s.Id == d.ID);
+            if (purchaseOrder == null)
             {
                 return null;
             }
@@ -196,27 +223,15 @@ namespace DL
             if (bp != null && bp.Bptype == "S")
                 return null;
 
-            PurchaseOrder newPurchaseOrder = PurchaseOrder;
-            PurchaseOrder.LastUpdateDate = DateTime.Now;
-            PurchaseOrder.Bpcode = d.BPCode;
-            PurchaseOrder.LastUpdatedBy = d.UserCode;
+            PurchaseOrder newPurchaseOrder =await updatePurchasOders(d,purchaseOrder);
+          
+            var purchasOrderId = _context.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode == purchaseOrder.Bpcode &&
+         p.CreateDate == purchaseOrder.CreateDate && p.CreatedBy == purchaseOrder.CreatedBy).Result.Id;
 
-            _context.Entry(PurchaseOrder).CurrentValues.SetValues(newPurchaseOrder);
-            await _context.SaveChangesAsync();
-
-            var purchasOrderId = _context.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode == PurchaseOrder.Bpcode &&
-         p.CreateDate == PurchaseOrder.CreateDate && p.CreatedBy == PurchaseOrder.CreatedBy).Result.Id;
             var currentPurchasOdersLine = _context.PurchaseOrdersLines.FirstOrDefault(sl => sl.LineId ==
                 _context.PurchaseOrdersLines.FirstOrDefault(s => s.DocId == purchasOrderId).LineId);
-            PurchaseOrdersLine purchaseOrdersLine = currentPurchasOdersLine;
+            PurchaseOrdersLine purchaseOrdersLine =await updatePurchasOdersLinse(d, currentPurchasOdersLine);
 
-            purchaseOrdersLine.Quantity = d.Quantity;
-            purchaseOrdersLine.ItemCode = d.IteamCode;
-            purchaseOrdersLine.LastUpdateDate = DateTime.Now;
-            purchaseOrdersLine.CreatedBy = d.ID;
-            purchaseOrdersLine.LastUpdatedBy = d.ID;
-            _context.Entry(currentPurchasOdersLine).CurrentValues.SetValues(purchaseOrdersLine);
-            await _context.SaveChangesAsync();
 
             return d;
         }
