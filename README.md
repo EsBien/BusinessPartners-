@@ -45,6 +45,6 @@ These include checking document types, active business partners, document line p
 # Database Migration
 The project uses Entity Framework Core for database interaction. </br>
 To set up the initial database schema and seed data, run the following command in the Package Manager Console: </br>
-dotnet ef dbcontext scaffold "Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" </br>Microsoft.EntityFrameworkCore.SqlServer --output-dir Models </br>
+dotnet ef dbcontext scaffold "Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models </br>
 
 ...
