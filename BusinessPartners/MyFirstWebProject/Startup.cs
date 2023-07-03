@@ -176,4 +176,10 @@ namespace MyFirstWebProject
         }
     }
 }
+
+//dotnet ef dbcontext scaffold "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Chinook" Microsoft.EntityFrameworkCore.SqlServer
+
+
+//dotnet ef dbcontext scaffold "Server=DESKTOP-9IDNILH;Database=BusinessPartners;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models
+
 //"Server=DESKTOP-E0FAPSB\SQLEXPRESS;Database=BusinessPartners;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;"

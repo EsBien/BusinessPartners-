@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyFirstWebProject.Models1;
+namespace MyFirstWebProject.Models;
 
 public partial class BusinessPartnersContext : DbContext
 {
@@ -34,13 +34,13 @@ public partial class BusinessPartnersContext : DbContext
     public virtual DbSet<UserTbl> UserTbls { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-E0FAPSB\\SQLEXPRESS;Database=BusinessPartners;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;");
+        => optionsBuilder.UseSqlServer("Server=DESKTOP-9IDNILH;Database=BusinessPartners;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Bp>(entity =>
         {
-            entity.HasKey(e => e.Bpcode).HasName("PK__BP__050B43D9D9F524C0");
+            entity.HasKey(e => e.Bpcode).HasName("PK__BP__050B43D98EFACC21");
 
             entity.ToTable("BP");
 
@@ -57,12 +57,12 @@ public partial class BusinessPartnersContext : DbContext
 
             entity.HasOne(d => d.BptypeNavigation).WithMany(p => p.Bps)
                 .HasForeignKey(d => d.Bptype)
-                .HasConstraintName("FK__BP__BPType__2F10007B");
+                .HasConstraintName("FK__BP__BPType__5070F446");
         });
 
         modelBuilder.Entity<Bptype>(entity =>
         {
-            entity.HasKey(e => e.TypeCode).HasName("PK__BPType__3E1CDC7DAA88612D");
+            entity.HasKey(e => e.TypeCode).HasName("PK__BPType__3E1CDC7D16D106FE");
 
             entity.ToTable("BPType");
 
@@ -72,7 +72,7 @@ public partial class BusinessPartnersContext : DbContext
 
         modelBuilder.Entity<Item>(entity =>
         {
-            entity.HasKey(e => e.ItemCode).HasName("PK__Items__3ECC0FEBB23D3A8F");
+            entity.HasKey(e => e.ItemCode).HasName("PK__Items__3ECC0FEBA71FE406");
 
             entity.Property(e => e.ItemCode).HasMaxLength(128);
             entity.Property(e => e.Active).HasDefaultValueSql("((1))");
@@ -81,7 +81,7 @@ public partial class BusinessPartnersContext : DbContext
 
         modelBuilder.Entity<PurchaseOrder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Purchase__3214EC27310A7CF0");
+            entity.HasKey(e => e.Id).HasName("PK__Purchase__3214EC27EC2A889C");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Bpcode)
@@ -92,20 +92,20 @@ public partial class BusinessPartnersContext : DbContext
 
             entity.HasOne(d => d.BpcodeNavigation).WithMany(p => p.PurchaseOrders)
                 .HasForeignKey(d => d.Bpcode)
-                .HasConstraintName("FK__PurchaseO__BPCod__4316F928");
+                .HasConstraintName("FK__PurchaseO__BPCod__6477ECF3");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PurchaseOrderCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__PurchaseO__Creat__440B1D61");
+                .HasConstraintName("FK__PurchaseO__Creat__656C112C");
 
             entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.PurchaseOrderLastUpdatedByNavigations)
                 .HasForeignKey(d => d.LastUpdatedBy)
-                .HasConstraintName("FK__PurchaseO__LastU__44FF419A");
+                .HasConstraintName("FK__PurchaseO__LastU__66603565");
         });
 
         modelBuilder.Entity<PurchaseOrdersLine>(entity =>
         {
-            entity.HasKey(e => e.LineId).HasName("PK__Purchase__2EAE64C9F7C4968D");
+            entity.HasKey(e => e.LineId).HasName("PK__Purchase__2EAE64C9A8DB2545");
 
             entity.Property(e => e.LineId).HasColumnName("LineID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -116,24 +116,24 @@ public partial class BusinessPartnersContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PurchaseOrdersLineCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__PurchaseO__Creat__49C3F6B7");
+                .HasConstraintName("FK__PurchaseO__Creat__6B24EA82");
 
             entity.HasOne(d => d.Doc).WithMany(p => p.PurchaseOrdersLines)
                 .HasForeignKey(d => d.DocId)
-                .HasConstraintName("FK__PurchaseO__DocID__47DBAE45");
+                .HasConstraintName("FK__PurchaseO__DocID__693CA210");
 
             entity.HasOne(d => d.ItemCodeNavigation).WithMany(p => p.PurchaseOrdersLines)
                 .HasForeignKey(d => d.ItemCode)
-                .HasConstraintName("FK__PurchaseO__ItemC__48CFD27E");
+                .HasConstraintName("FK__PurchaseO__ItemC__6A30C649");
 
             entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.PurchaseOrdersLineLastUpdatedByNavigations)
                 .HasForeignKey(d => d.LastUpdatedBy)
-                .HasConstraintName("FK__PurchaseO__LastU__4AB81AF0");
+                .HasConstraintName("FK__PurchaseO__LastU__6C190EBB");
         });
 
         modelBuilder.Entity<SaleOrder>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__SaleOrde__3214EC270A25B4EC");
+            entity.HasKey(e => e.Id).HasName("PK__SaleOrde__3214EC274B36EEDB");
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Bpcode)
@@ -144,20 +144,20 @@ public partial class BusinessPartnersContext : DbContext
 
             entity.HasOne(d => d.BpcodeNavigation).WithMany(p => p.SaleOrders)
                 .HasForeignKey(d => d.Bpcode)
-                .HasConstraintName("FK__SaleOrder__BPCod__34C8D9D1");
+                .HasConstraintName("FK__SaleOrder__BPCod__5629CD9C");
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.SaleOrderCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__SaleOrder__Creat__35BCFE0A");
+                .HasConstraintName("FK__SaleOrder__Creat__571DF1D5");
 
             entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.SaleOrderLastUpdatedByNavigations)
                 .HasForeignKey(d => d.LastUpdatedBy)
-                .HasConstraintName("FK__SaleOrder__LastU__36B12243");
+                .HasConstraintName("FK__SaleOrder__LastU__5812160E");
         });
 
         modelBuilder.Entity<SaleOrdersLine>(entity =>
         {
-            entity.HasKey(e => e.LineId).HasName("PK__SaleOrde__2EAE64C9AC6F3B38");
+            entity.HasKey(e => e.LineId).HasName("PK__SaleOrde__2EAE64C933DE5259");
 
             entity.Property(e => e.LineId).HasColumnName("LineID");
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
@@ -168,24 +168,24 @@ public partial class BusinessPartnersContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.SaleOrdersLineCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
-                .HasConstraintName("FK__SaleOrder__Creat__3B75D760");
+                .HasConstraintName("FK__SaleOrder__Creat__5CD6CB2B");
 
             entity.HasOne(d => d.Doc).WithMany(p => p.SaleOrdersLines)
                 .HasForeignKey(d => d.DocId)
-                .HasConstraintName("FK__SaleOrder__DocID__398D8EEE");
+                .HasConstraintName("FK__SaleOrder__DocID__5AEE82B9");
 
             entity.HasOne(d => d.ItemCodeNavigation).WithMany(p => p.SaleOrdersLines)
                 .HasForeignKey(d => d.ItemCode)
-                .HasConstraintName("FK__SaleOrder__ItemC__3A81B327");
+                .HasConstraintName("FK__SaleOrder__ItemC__5BE2A6F2");
 
             entity.HasOne(d => d.LastUpdatedByNavigation).WithMany(p => p.SaleOrdersLineLastUpdatedByNavigations)
                 .HasForeignKey(d => d.LastUpdatedBy)
-                .HasConstraintName("FK__SaleOrder__LastU__3C69FB99");
+                .HasConstraintName("FK__SaleOrder__LastU__5DCAEF64");
         });
 
         modelBuilder.Entity<SaleOrdersLinesComment>(entity =>
         {
-            entity.HasKey(e => e.CommentLineId).HasName("PK__SaleOrde__4F38FB07B5502A9B");
+            entity.HasKey(e => e.CommentLineId).HasName("PK__SaleOrde__4F38FB07A83F9D4A");
 
             entity.Property(e => e.CommentLineId).HasColumnName("CommentLineID");
             entity.Property(e => e.DocId).HasColumnName("DocID");
@@ -193,20 +193,20 @@ public partial class BusinessPartnersContext : DbContext
 
             entity.HasOne(d => d.Doc).WithMany(p => p.SaleOrdersLinesComments)
                 .HasForeignKey(d => d.DocId)
-                .HasConstraintName("FK__SaleOrder__DocID__3F466844");
+                .HasConstraintName("FK__SaleOrder__DocID__60A75C0F");
 
             entity.HasOne(d => d.Line).WithMany(p => p.SaleOrdersLinesComments)
                 .HasForeignKey(d => d.LineId)
-                .HasConstraintName("FK__SaleOrder__LineI__403A8C7D");
+                .HasConstraintName("FK__SaleOrder__LineI__619B8048");
         });
 
         modelBuilder.Entity<UserTbl>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__UserTbl__3214EC27CF3392AE");
+            entity.HasKey(e => e.Id).HasName("PK__UserTbl__3214EC2716B1168C");
 
             entity.ToTable("UserTbl");
 
-            entity.HasIndex(e => e.UserName, "UQ__UserTbl__C9F28456647F5975").IsUnique();
+            entity.HasIndex(e => e.UserName, "UQ__UserTbl__C9F2845650428622").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("ID");
             entity.Property(e => e.Active).HasDefaultValueSql("((1))");
