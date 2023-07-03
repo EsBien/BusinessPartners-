@@ -47,4 +47,8 @@ The project uses Entity Framework Core for database interaction. </br>
 To set up the initial database schema and seed data, run the following command in the Package Manager Console: </br>
 dotnet ef dbcontext scaffold "Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models </br>
 
+# Acknowledgments
+**NLog** - Logging library used for error handling and logging.
+**Swagger** - API documentation and testing tool.
+
 ...
