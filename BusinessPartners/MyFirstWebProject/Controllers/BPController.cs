@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using BL_;
+using DTO;
 namespace MyFirstWebProject.Controllers
 {
     [Route("api/[controller]")]
@@ -24,16 +25,16 @@ namespace MyFirstWebProject.Controllers
         }
         [HttpGet]
 
-        public async Task<ActionResult<(IEnumerable<Bp> Records, int MaxPages)>> ReadBP([FromQuery] string columnName = null, [FromQuery] string filterValue = null)
+        public async Task<ActionResult<Record>> ReadBP([FromQuery] string columnName = null, [FromQuery] string filterValue = null)
         {
-            IEnumerable<Bp> records;
-            int rows = 0;
-            (records, rows) = await _bp.ReadBP(columnName, filterValue);
-            if (records == null)
+ 
+            Record record = null;
+            record = await _bp.ReadBP(columnName, filterValue);
+            if (record == null)
             {
                 return NotFound("no record found");
             }
-            return Ok(records);
+            return Ok(record);
 
         }
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Entities;
+using DTO;
 
 namespace DL
 {
@@ -16,9 +17,10 @@ namespace DL
         {
             _context = context;
         }
-        public async Task<(IEnumerable<Bp> Records, int MaxPages)> ReadBP(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10)
+        public async Task<Record> ReadBP(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10)
         {
             IQueryable<Bp> query = _context.Bps;
+            Record record = new Record();
 
             if (!string.IsNullOrEmpty(columnName) && !string.IsNullOrEmpty(filterValue))
             {
@@ -33,8 +35,11 @@ namespace DL
 
             // Execute the query to retrieve the filtered and paginated records asynchronously
             List<Bp> records = await query.ToListAsync();
+            record.records = records;
+            record.maxPages = maxPages;
+            record.pages = totalRecords;
 
-            return (records, maxPages);
+            return record;
         }
     }
 }

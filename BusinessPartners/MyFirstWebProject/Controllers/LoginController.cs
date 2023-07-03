@@ -76,7 +76,7 @@ namespace MyFirstWebProject.Controllers
             var creds = new SigningCredentials(symmetricKey, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddDays(5),
                 signingCredentials: creds
             );
 

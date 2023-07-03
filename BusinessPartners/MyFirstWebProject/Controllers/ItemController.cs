@@ -22,11 +22,12 @@ namespace MyFirstWebProject.Controllers
         public ItemController(IitemBL iitemBL) {
             _iitemBL = iitemBL;
         }
+
         [HttpGet]
 
-        public async Task<ActionResult<(Record Records, int MaxPages)>> ReadItems([FromQuery] string columnName = null, [FromQuery] string filterValue = null)
+        public async Task<ActionResult<Record>> ReadItems([FromQuery] string columnName = null, [FromQuery] string filterValue = null)
         {
-            IEnumerable<Item> items;
+           
             Record record = null;
             record = await _iitemBL.ReadItems(columnName, filterValue);
           
