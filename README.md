@@ -1,11 +1,11 @@
 # Business Partners API
-***note** The  name "myfirstProject" sln is default in my Visual Studio,I tried to change it but caused some errors . </br>
+***note** The  name "myfirstProject" sln is the default in my Visual Studio, I tried to change it but caused some errors. </br>
 Due to time constraints and the importance of the project, I decided to keep the default name for now. </br>
 Please note that this is not my first project, and I have successfully completed several projects in the past </br>
 
 This project provides a Web API for managing business partners. </br>
 It is built using C# with .NET 6 and SQL Server. The API supports various operations, </br>
-including login, retrieving items and business partners, adding, updating, and deleting documents </br>
+including login, retrieving items, and business partners, adding, updating, and deleting documents </br>
 
 # Features
 **Login**: Authenticate users and generate a valid secret key for further operations. </br>
@@ -31,7 +31,7 @@ git clone [https://github.com/your-username/business-partners-api.git](https://g
 5. Use the Swagger UI or any API testing tool (e.g., Postman) to interact with the API endpoints. </br>
 
 # Error Handling
-This project includes error handling middleware that catches exceptions and returns appropriate error responses. </br>
+This project includes error-handling middleware that catches exceptions and returns appropriate error responses. </br>
 Errors are logged using NLog, and the details can be found in the log files. </br>
 
 # Authentication and Authorization
@@ -45,5 +45,6 @@ These include checking document types, active business partners, document line p
 # Database Migration
 The project uses Entity Framework Core for database interaction. </br>
 To set up the initial database schema and seed data, run the following command in the Package Manager Console: </br>
-"Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" </br>
+dotnet ef dbcontext scaffold "Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" </br>Microsoft.EntityFrameworkCore.SqlServer --output-dir Models </br>
+
 ...
