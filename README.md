@@ -48,7 +48,7 @@ To set up the initial database schema and seed data, run the following command i
 dotnet ef dbcontext scaffold "Server=yourConnectionStrings;Database=dbName;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models </br>
 
 # Acknowledgments
-**NLog** - Logging library used for error handling and logging.
+**NLog** - Logging library used for error handling and logging. </br>
 **Swagger** - API documentation and testing tool.
 
 ...
