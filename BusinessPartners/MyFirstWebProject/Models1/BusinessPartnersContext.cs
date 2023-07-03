@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyFirstWebProject.Models;
+namespace MyFirstWebProject.Models1;
 
 public partial class BusinessPartnersContext : DbContext
 {
