@@ -18,8 +18,8 @@ using System.Security.Cryptography;
 
 namespace MyFirstWebProject.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+    [Route("api/[controller]")]
+    [ApiController]
     public class LoginController : ControllerBase
     {
         IuserBL _iuserBl;
@@ -53,9 +53,6 @@ namespace MyFirstWebProject.Controllers
             UserDTO userDTO = new UserDTO();
             userDTO.UserName = name;
             userDTO.IdToken = user.Id;
-
-            //HttpContext.Session.SetInt32("UserId", user.Id);
-            //HttpContext.Session.SetString("Username", user.UserName);
             
             string token = CreateToken(user);
 
@@ -72,14 +69,14 @@ namespace MyFirstWebProject.Controllers
 
             //// Generate a secure key
 
-            var key = _configuration.GetSection("AppSettings:Token").Value;
+            var key = _configuration.GetSection("AppSettings:TokenKey").Value;
           
             var symmetricKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
             var creds = new SigningCredentials(symmetricKey, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(8),
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds
             );
 

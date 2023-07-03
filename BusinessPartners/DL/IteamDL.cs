@@ -11,6 +11,8 @@ using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using DTO;
+using Microsoft.Identity.Client;
 
 namespace DL
 {
@@ -23,8 +25,9 @@ namespace DL
            _context = context;
         }
 
-        public async Task<(IEnumerable<Item> Records, int MaxPages)> ReadItems(string columnName = null, string filterValue = null, int page = 1,int pageSize=10)
+        public async Task<Record> ReadItems(string columnName = null, string filterValue = null, int page = 1,int pageSize=10)
         {
+            Record record = new Record();
             IQueryable<Item> query = _context.Items;
 
             if (!string.IsNullOrEmpty(columnName) && !string.IsNullOrEmpty(filterValue))
@@ -40,8 +43,11 @@ namespace DL
 
             // Execute the query to retrieve the filtered and paginated records asynchronously
             List<Item> records = await query.ToListAsync();
+            record.records = query;
+            record.maxPages=maxPages;
+            record.pages = totalRecords;
 
-            return (records, maxPages);
+            return record;
         }
 
 

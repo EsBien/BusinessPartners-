@@ -71,6 +71,7 @@ namespace MyFirstWebProject
                     In = ParameterLocation.Header,
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT",
                     Description = "Enter 'Bearer' [space] and then your valid token in the text input below.\r\n\r\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\"",
 
                 });
@@ -103,7 +104,7 @@ namespace MyFirstWebProject
             });
 
 
-            var key1 = Configuration.GetSection("AppSettings:Token").Value;
+            var Tokenkey = Configuration.GetSection("AppSettings:TokenKey").Value;
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
@@ -112,11 +113,11 @@ namespace MyFirstWebProject
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = false,
                     ValidateIssuer = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key1))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Tokenkey))
                 };
             });
             services.AddAuthorization();
-            //services.AddSession();
+     
 
           
         }
@@ -177,7 +178,6 @@ namespace MyFirstWebProject
     }
 }
 
-//dotnet ef dbcontext scaffold "Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Chinook" Microsoft.EntityFrameworkCore.SqlServer
 
 
 //dotnet ef dbcontext scaffold "Server=DESKTOP-9IDNILH;Database=BusinessPartners;Trusted_Connection=True;Encrypt=False;TrustServerCertificate=Yes;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Models

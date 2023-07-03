@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DL;
+using DTO;
+
 namespace BL_ { 
 
     public class ItemBL : IitemBL
@@ -15,7 +17,7 @@ namespace BL_ {
             _IitemDL = IitemDL;
         }
 
-        public async Task<(IEnumerable<Item> Records, int MaxPages)> ReadItems(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10)
+        public async Task<Record> ReadItems(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10)
         {
         
 
