@@ -62,7 +62,7 @@ namespace Entities
 
         }
 
-        public DateTime? LastUpdateDateBy { get; set; }
+        public int? LastUpdateDateBy { get; set; }
 
         public decimal Quantity { get; set; }
     }

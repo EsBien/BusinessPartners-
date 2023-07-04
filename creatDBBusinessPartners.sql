@@ -48,7 +48,7 @@ CREATE TABLE Items (
 
 -- Insert seed data
 INSERT INTO Items (ItemCode, ItemName, Active)
-VALUES ('Itm1', 'Item 1', 1),
+VALUES ('Itm4', 'Item 1', 1),
        ('Itm2', 'Item 2', 1),
        ('Itm3', 'Item 3', 0);
 
@@ -127,3 +127,12 @@ from BP
 
 select *
 from Items
+
+select *
+from saleorders
+
+select *
+from SaleOrdersLines
+
+select *
+from SaleOrdersLinesComments
