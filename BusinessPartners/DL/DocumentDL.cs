@@ -184,7 +184,7 @@ namespace DL
         }
         public async Task<Document> PostSaleOders(Document d)
         {
-            if (checkDocument(d,"V"))
+            if (!checkDocument(d,"V"))
             {
                 return null;
             }

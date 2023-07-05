@@ -49,9 +49,9 @@ namespace MyFirstWebProject.Controllers
                 documentToAdd = await _documentBL.PostPurchasOders(document);
             }
             else { return BadRequest("not currect type was given!"); }
-            if (document == null)
+            if (documentToAdd == null)
             {
-                return BadRequest("cant add documet to db on or more fields are not valid");
+                return BadRequest("cant add documet to db one or more fields are not valid");
             }
             return Ok(documentToAdd);
         }
