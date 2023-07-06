@@ -22,6 +22,12 @@ namespace MyFirstWebProject
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).UseNLog();
+                })
+            //.ConfigureLogging((logger) => 
+            //{ 
+            //    logger.ClearProviders();
+            //    logger.SetMinimumLevel(LogLevel.Trace);
+            //})
+            .UseNLog();
     }
 }

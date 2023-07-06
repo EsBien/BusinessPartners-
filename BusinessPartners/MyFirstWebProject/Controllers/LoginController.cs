@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using Microsoft.Extensions.Logging;
 
 namespace MyFirstWebProject.Controllers
 {
@@ -25,11 +26,14 @@ namespace MyFirstWebProject.Controllers
         IuserBL _iuserBl;
         IMapper _mapper;
         IConfiguration _configuration;
-        public LoginController(IuserBL iuserBl, IMapper mapper, IConfiguration configuration)
+        ILogger _logger;
+        public LoginController(IuserBL iuserBl, IMapper mapper, IConfiguration configuration,ILogger<LoginController> logger)
         {
             _iuserBl = iuserBl;
             _mapper = mapper;
             _configuration = configuration;
+            _logger= logger;
+            _logger.LogInformation("LoginController is up\n");
         }
         private string GenerateSecretKey()
         {
@@ -48,7 +52,9 @@ namespace MyFirstWebProject.Controllers
             UserTbl user = await _iuserBl.getUser(name, id);
             if (user == null)
             {
+                _logger.LogError("no user in DB \n");
                 return NotFound();
+                
             }
             UserDTO userDTO = new UserDTO();
             userDTO.UserName = name;

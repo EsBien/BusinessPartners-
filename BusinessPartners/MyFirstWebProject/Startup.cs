@@ -46,8 +46,7 @@ namespace MyFirstWebProject
                     builder.WithOrigins("http://aaa.com", "http://bbb.com");
                 });
             });
-       
-
+            
             services.AddControllers();
             services.AddScoped<IuserBL,UserBL>();
             services.AddScoped<IuserDL, UserDL>();
@@ -62,6 +61,11 @@ namespace MyFirstWebProject
             services.AddDbContext<BusinessPartnersContext>(option => option.UseSqlServer(Configuration.GetConnectionString("BusinessPartners")));
             services.AddResponseCaching();
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddLogging(logger =>
+            {
+                logger.ClearProviders();
+            });
             //srv2\\pupils  //LAPTOP - ODKQSO4A
             services.AddSwaggerGen(c =>
             {
@@ -133,7 +137,6 @@ namespace MyFirstWebProject
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "BusinessPartners v1"));
             }
             
-           
             logger.LogInformation("server is up"); 
 
 
