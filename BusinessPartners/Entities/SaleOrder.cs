@@ -14,13 +14,6 @@ public partial class SaleOrder : TrackableEntity
 
     public string Bpcode { get; set; }
 
-    //public DateTime? CreateDate { get; set; }
-
-    //public DateTime? LastUpdateDate { get; set; }
-
-    //public int? CreatedBy { get; set; }
-
-    //public int? LastUpdatedBy { get; set; }
 
     public virtual Bp BpcodeNavigation { get; set; }
 

@@ -45,11 +45,11 @@ namespace DL
             PurchaseOrder purchaseOrder = new PurchaseOrder
             {
                 Bpcode = d.BPCode,
-                CreateDate = DateTime.Now,
                 LastUpdateDate = null,
-                CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
+            purchaseOrder.setCreatedBy(d.UserCode);
+            purchaseOrder.setCreateDate(DateTime.Now);
             await _context.PurchaseOrders.AddAsync(purchaseOrder);
             await _context.SaveChangesAsync();
             var purchaseOrderId = _context.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode== purchaseOrder.Bpcode &&
@@ -58,11 +58,11 @@ namespace DL
             {
                 DocId = purchaseOrderId,
                 Quantity = d.Quantity,
-                CreateDate = DateTime.Now,
                 LastUpdateDate = null,
-                CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
+            purchaseOrdersLine.setCreatedBy(d.UserCode);
+            purchaseOrdersLine.setCreateDate(DateTime.Now);
             await _context.PurchaseOrdersLines.AddAsync(purchaseOrdersLine);
             await _context.SaveChangesAsync();
             d.setCreateDate(purchaseOrder.CreateDate);
@@ -96,11 +96,11 @@ namespace DL
                 DocId = saleOrderId,
                 Quantity = d.Quantity,
                 ItemCode = d.IteamCode,
-                CreateDate = DateTime.Now,
                 LastUpdateDate = null,
-                CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
+            saleOrdersLine.setCreatedBy(d.UserCode);
+            saleOrdersLine.setCreateDate(DateTime.Now);
             await _context.SaleOrdersLines.AddAsync(saleOrdersLine);
             await _context.SaveChangesAsync();
             return saleOrdersLine;
@@ -139,13 +139,13 @@ namespace DL
             purchaseOrdersLine.Quantity = d.Quantity;
             purchaseOrdersLine.ItemCode = d.IteamCode;
             purchaseOrdersLine.LastUpdateDate = DateTime.Now;
-            purchaseOrdersLine.CreatedBy = d.ID;
             purchaseOrdersLine.LastUpdatedBy = d.ID;
             _context.Entry(currentPurchasOdersLine).CurrentValues.SetValues(purchaseOrdersLine);
             await _context.SaveChangesAsync();
             return purchaseOrdersLine;
         }
         
+
         private async Task<SaleOrder> updateSaleOder(Document d,SaleOrder saleOrder)
         {
 
@@ -330,12 +330,11 @@ namespace DL
                 IteamCode = item != null ? item.ItemCode :"",
                 UserCode = user.Id,
                 Comment = saleOrdersLinesComment != null ? saleOrdersLinesComment.Comment :"",
-                CreateDate = saleOrder.CreateDate,
-               
                 LastUpdateDate = saleOrder.LastUpdateDate,
                 LastUpdatedBy = saleOrder.LastUpdatedBy,
                 Quantity= saleOrdersLine.Quantity
             };
+            documentDTO.setCreateDate(saleOrder.CreateDate);
             documentDTO.setCreatedBy(saleOrder.CreatedBy);
             return documentDTO;
         }
@@ -362,11 +361,11 @@ namespace DL
                 isActivItem = item != null ? item.Active : false,
                 IteamCode = item != null ? item.ItemCode : "",
                 UserCode = user.Id,
-                CreateDate = purchasOrder.CreateDate,
                 LastUpdateDate = purchasOrder.LastUpdateDate,
                 LastUpdatedBy = purchasOrder.LastUpdatedBy,
                 Quantity = purchasOrdersLine.Quantity
             };
+            documentDTO.setCreateDate(purchasOrder.CreateDate);
             documentDTO.setCreatedBy(purchasOrder.CreatedBy);
             return documentDTO;
         }

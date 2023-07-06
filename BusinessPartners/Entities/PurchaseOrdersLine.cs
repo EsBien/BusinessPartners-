@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace Entities;
 
 
-public partial class PurchaseOrdersLine
+public partial class PurchaseOrdersLine : TrackableEntity
 {
     public int LineId { get; set; }
 
@@ -18,13 +18,6 @@ public partial class PurchaseOrdersLine
 
     public decimal? Quantity { get; set; }
 
-    public DateTime? CreateDate { get; set; }
-
-    public DateTime? LastUpdateDate { get; set; }
-
-    public int? CreatedBy { get; set; }
-
-    public int? LastUpdatedBy { get; set; }
 
     public virtual UserTbl CreatedByNavigation { get; set; }
 
@@ -33,4 +26,22 @@ public partial class PurchaseOrdersLine
     public virtual Item ItemCodeNavigation { get; set; }
 
     public virtual UserTbl LastUpdatedByNavigation { get; set; }
+
+    public override void setCreateDate(DateTime? d)
+    {
+        if (!isCreateDateModified)
+        {
+            CreateDate = DateTime.Now;
+            isCreateDateModified = true;
+        }
+    }
+
+    public override void setCreatedBy(int? id)
+    {
+        if (!isCreatedByModified)
+        {
+            CreatedBy = id;
+            isCreatedByModified = true;
+        }
+    }
 }

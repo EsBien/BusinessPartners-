@@ -19,7 +19,7 @@ namespace DTO
         public string IteamCode { get; set; }
         public string Comment { get; set; }
         
-        public DateTime? CreateDate { get; set; }
+       
      
 
         public decimal? Quantity { get; set; }
