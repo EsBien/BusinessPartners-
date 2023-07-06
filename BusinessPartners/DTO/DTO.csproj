@@ -8,4 +8,8 @@
     <PackageReference Include="Hangfire.SqlServer" Version="1.8.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Entities\Entities.csproj" />
+  </ItemGroup>
+
 </Project>

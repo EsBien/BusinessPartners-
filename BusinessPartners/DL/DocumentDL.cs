@@ -29,7 +29,7 @@ namespace DL
         {
             Bp getBP = _context.Bps.FindAsync(d.BPCode).Result;
             Item item = _context.Items.FindAsync(d.IteamCode).Result;
-            if (getBP.Active != true || getBP.Bptype == bpTpe || item.Active != true || d.Quantity > 0)
+            if (getBP.Active != true || getBP.Bptype == bpTpe || item.Active != true || d.Quantity < 0)
             {
                 return false;
             }
@@ -68,7 +68,7 @@ namespace DL
             d.setCreateDate(purchaseOrder.CreateDate);
             d.setCreateDate(purchaseOrder.CreateDate);
             d.LastUpdateDate = null;
-            d.LastUpdateDateBy = null;
+            d.LastUpdatedBy = null;
             return d;
         }
 
@@ -77,11 +77,13 @@ namespace DL
             SaleOrder saleOrder = new SaleOrder
             {
                 Bpcode = d.BPCode,
-                CreateDate = DateTime.Now,
+                //CreateDate = DateTime.Now,
                 LastUpdateDate = null,
-                CreatedBy = d.UserCode,
+                //CreatedBy = d.UserCode,
                 LastUpdatedBy = null
             };
+            saleOrder.setCreateDate(DateTime.Now);
+            saleOrder.setCreatedBy(d.UserCode);
             await _context.SaleOrders.AddAsync(saleOrder);
             await _context.SaveChangesAsync();
             return saleOrder;
@@ -151,6 +153,7 @@ namespace DL
             newSaleOrder.LastUpdateDate = DateTime.Now;
             newSaleOrder.Bpcode = d.BPCode;
             newSaleOrder.LastUpdatedBy = d.UserCode;
+            //newSaleOrder.CreateDate = DateTime.Now;
 
             _context.Entry(saleOrder).CurrentValues.SetValues(newSaleOrder);
             await _context.SaveChangesAsync();
@@ -204,9 +207,9 @@ namespace DL
 
 
             d.setCreateDate(saleOrder.CreateDate);
-            d.setCreateDateBy(saleOrder.CreateDate);
+            d.setCreatedBy(saleOrder.CreatedBy);
             d.LastUpdateDate = null;
-            d.LastUpdateDateBy = null;
+            d.LastUpdatedBy = null;
             return d;
         }
 
@@ -241,7 +244,7 @@ namespace DL
 
             await _context.SaveChangesAsync();
             d.LastUpdateDate=saleOrder.LastUpdateDate;
-            d.LastUpdateDateBy = saleOrder.LastUpdatedBy;
+            d.LastUpdatedBy = saleOrder.LastUpdatedBy;
 
             return d;
         }
@@ -328,11 +331,12 @@ namespace DL
                 UserCode = user.Id,
                 Comment = saleOrdersLinesComment != null ? saleOrdersLinesComment.Comment :"",
                 CreateDate = saleOrder.CreateDate,
-                CreateDateBy = saleOrder.CreatedBy,
+               
                 LastUpdateDate = saleOrder.LastUpdateDate,
-                LastUpdateDateBy = saleOrder.LastUpdatedBy,
+                LastUpdatedBy = saleOrder.LastUpdatedBy,
                 Quantity= saleOrdersLine.Quantity
             };
+            documentDTO.setCreatedBy(saleOrder.CreatedBy);
             return documentDTO;
         }
 
@@ -359,11 +363,11 @@ namespace DL
                 IteamCode = item != null ? item.ItemCode : "",
                 UserCode = user.Id,
                 CreateDate = purchasOrder.CreateDate,
-                CreateDateBy = purchasOrder.CreatedBy,
                 LastUpdateDate = purchasOrder.LastUpdateDate,
-                LastUpdateDateBy = purchasOrder.LastUpdatedBy,
+                LastUpdatedBy = purchasOrder.LastUpdatedBy,
                 Quantity = purchasOrdersLine.Quantity
             };
+            documentDTO.setCreatedBy(purchasOrder.CreatedBy);
             return documentDTO;
         }
     }

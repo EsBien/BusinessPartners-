@@ -12,7 +12,7 @@ namespace DTO
         public int paginated { get; set; }
         public int maxPages { get; set; }
 
-        public int pages { get; set; }
+        public int totalPages { get; set; }
         public IEnumerable<Object> records { get; set; }
     }
 }

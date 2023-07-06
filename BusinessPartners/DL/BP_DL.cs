@@ -37,7 +37,7 @@ namespace DL
             List<Bp> records = await query.ToListAsync();
             record.records = records;
             record.maxPages = maxPages;
-            record.pages = totalRecords;
+            record.totalPages = totalRecords;
 
             return record;
         }
