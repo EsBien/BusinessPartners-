@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entities;
 using DTO;
+using System.Threading;
 
 namespace DL
 {
@@ -19,6 +20,8 @@ namespace DL
         }
         public async Task<Record> ReadBP(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10)
         {
+            Console.WriteLine("ReadBP begin on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
+
             IQueryable<Bp> query = _context.Bps;
             Record record = new Record();
 
@@ -34,10 +37,10 @@ namespace DL
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             // Execute the query to retrieve the filtered and paginated records asynchronously
-            List<Bp> records = await query.ToListAsync();
-            record.records = records;
+            record.records = query;
             record.maxPages = maxPages;
             record.totalPages = totalRecords;
+            Console.WriteLine("ReadBP end on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
 
             return record;
         }

@@ -25,10 +25,10 @@ namespace DL
                 _context = businessPartnersContext;
         }
 
-        private bool checkDocument(Document d , string bpTpe)
+        private async Task<bool> checkDocument(Document d , string bpTpe)
         {
-            Bp getBP = _context.Bps.FindAsync(d.BPCode).Result;
-            Item item = _context.Items.FindAsync(d.IteamCode).Result;
+            Bp getBP = await _context.Bps.FindAsync(d.BPCode);
+            Item item =await _context.Items.FindAsync(d.IteamCode);
             if (getBP.Active != true || getBP.Bptype == bpTpe || item.Active != true || d.Quantity < 0)
             {
                 return false;
@@ -37,7 +37,7 @@ namespace DL
         }
         public async Task<Document> PostPurchasOders(Document d)
         {
-            if (checkDocument(d,"S"))
+            if (checkDocument(d,"S").Result)
             {
                 return null;
             }
@@ -187,7 +187,7 @@ namespace DL
         }
         public async Task<Document> PostSaleOders(Document d)
         {
-            if (!checkDocument(d,"V"))
+            if (!checkDocument(d,"V").Result)
             {
                 return null;
             }
@@ -221,7 +221,7 @@ namespace DL
         //• It’s not possible to delete all the document lines
         public async Task<Document> UpdateDocumentSaleOders(Document d)
         {
-            SaleOrder saleOrder= _context.SaleOrders.FirstOrDefault(s =>s.Id ==d.UserCode);
+            SaleOrder saleOrder= _context.SaleOrders.FirstOrDefault(s =>s.Id ==d.ID);
             if (saleOrder == null)
             {
                 return null;

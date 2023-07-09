@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using DTO;
 using Microsoft.Identity.Client;
+using System.Threading;
 
 namespace DL
 {
@@ -29,7 +30,7 @@ namespace DL
         {
             Record record = new Record();
             IQueryable<Item> query = _context.Items;
-
+            Console.WriteLine("ReadItems on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
             if (!string.IsNullOrEmpty(columnName) && !string.IsNullOrEmpty(filterValue))
             {
                 // Filter the records based on the specified column name and value
@@ -40,9 +41,7 @@ namespace DL
             int maxPages = (int)Math.Ceiling((double)totalRecords / pageSize);
 
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
-
-            // Execute the query to retrieve the filtered and paginated records asynchronously
-            List<Item> records = await query.ToListAsync();
+            
             record.records = query;
             record.maxPages=maxPages;
             record.totalPages = totalRecords;

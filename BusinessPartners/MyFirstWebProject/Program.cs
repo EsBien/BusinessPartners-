@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NLog.Web;
+using System.Threading;
 
 namespace MyFirstWebProject
 {
@@ -14,7 +15,10 @@ namespace MyFirstWebProject
     {
         public static void Main(string[] args)
         {
+            Console.WriteLine("main on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
+
             CreateHostBuilder(args).Build().Run();
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
