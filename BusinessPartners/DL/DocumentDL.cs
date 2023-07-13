@@ -41,7 +41,6 @@ namespace DL
             {
                 return null;
             }
-            ////var userId = HttpContext.Session.GetInt32("UserId");
             PurchaseOrder purchaseOrder = new PurchaseOrder
             {
                 Bpcode = d.BPCode,
@@ -50,29 +49,27 @@ namespace DL
             };
             purchaseOrder.setCreatedBy(d.UserCode);
             purchaseOrder.setCreateDate(DateTime.Now);
-            await _context.PurchaseOrders.AddAsync(purchaseOrder);
-            await _context.SaveChangesAsync();
-            var purchaseOrderId = _context.PurchaseOrders.FirstOrDefaultAsync(p => p.Bpcode== purchaseOrder.Bpcode &&
-            p.CreateDate==purchaseOrder.CreateDate && p.CreatedBy == purchaseOrder.CreatedBy).Result.Id;
             PurchaseOrdersLine purchaseOrdersLine = new PurchaseOrdersLine
             {
-                DocId = purchaseOrderId,
+
                 Quantity = d.Quantity,
                 LastUpdateDate = null,
                 LastUpdatedBy = null
             };
             purchaseOrdersLine.setCreatedBy(d.UserCode);
             purchaseOrdersLine.setCreateDate(DateTime.Now);
-            await _context.PurchaseOrdersLines.AddAsync(purchaseOrdersLine);
-            await _context.SaveChangesAsync();
+            purchaseOrder.PurchaseOrdersLines.Add(purchaseOrdersLine);
+   
             d.setCreateDate(purchaseOrder.CreateDate);
             d.setCreateDate(purchaseOrder.CreateDate);
             d.LastUpdateDate = null;
             d.LastUpdatedBy = null;
+            await _context.PurchaseOrders.AddAsync(purchaseOrder);
+            await _context.SaveChangesAsync();
             return d;
         }
 
-        private async Task<SaleOrder> addSaleOderToDB(Document d)
+        private SaleOrder CreateSaleOder(Document d)
         {
             SaleOrder saleOrder = new SaleOrder
             {
@@ -84,11 +81,9 @@ namespace DL
             };
             saleOrder.setCreateDate(DateTime.Now);
             saleOrder.setCreatedBy(d.UserCode);
-            //await _context.SaleOrders.AddAsync(saleOrder);
-            //await _context.SaveChangesAsync();
             return saleOrder;
         }
-        private async Task<SaleOrdersLine> addSaleOderLinesToDB(Document d,int saleOrderId)
+        private  SaleOrdersLine CreateSaleOderLines(Document d)
         {
 
             SaleOrdersLine saleOrdersLine = new SaleOrdersLine
@@ -101,23 +96,9 @@ namespace DL
             };
             saleOrdersLine.setCreatedBy(d.UserCode);
             saleOrdersLine.setCreateDate(DateTime.Now);
-            //await _context.SaleOrdersLines.AddAsync(saleOrdersLine);
-            //await _context.SaveChangesAsync();
             return saleOrdersLine;
         }
-        private async Task<SaleOrdersLinesComment> addSaleOderLinesCommensToDB(Document d, int saleOrderId,int saleOrdersLineId)
-        {
-
-            SaleOrdersLinesComment saleOrdersLineComment = new SaleOrdersLinesComment
-            {
-                DocId = saleOrderId,
-                LineId = saleOrderId,
-                Comment = d.Comment
-            };
-            await _context.SaleOrdersLinesComments.AddAsync(saleOrdersLineComment);
-            await _context.SaveChangesAsync();
-            return saleOrdersLineComment;
-        }
+       
 
         private async Task<PurchaseOrder> updatePurchasOders(Document d, PurchaseOrder purchaseOrder)
         {
@@ -191,19 +172,13 @@ namespace DL
             {
                 return null;
             }
+          
+            SaleOrder saleOrder = CreateSaleOder(d);
 
-            ////var userId = HttpContext.Session.GetInt32("UserId");
-            SaleOrder saleOrder = await addSaleOderToDB(d);
-            
-            // var saleOrderId = _context.SaleOrders.FirstOrDefaultAsync(p => p.Bpcode == saleOrder.Bpcode &&
-            //p.CreateDate == saleOrder.CreateDate && p.CreatedBy == saleOrder.CreatedBy).Result.Id;
-
-
-            SaleOrdersLine saleOrdersLine =await addSaleOderLinesToDB(d,0);
+            SaleOrdersLine saleOrdersLine =CreateSaleOderLines(d);
             saleOrder.SaleOrdersLines.Add(saleOrdersLine);
-            //var saleOderLineId = _context.SaleOrdersLines.FirstOrDefaultAsync(d => d.Doc == saleOrdersLine.Doc && d.CreateDate == saleOrdersLine.CreateDate);
 
-            SaleOrdersLinesComment saleOrdersLineComment = new SaleOrdersLinesComment() {Comment=d.Comment };//await addSaleOderLinesCommensToDB(d, saleOrderId, saleOrdersLine.LineId);
+            SaleOrdersLinesComment saleOrdersLineComment = new SaleOrdersLinesComment() {Comment=d.Comment };
             saleOrder.SaleOrdersLinesComments.Add(saleOrdersLineComment);
             await _context.SaleOrders.AddAsync(saleOrder);
             await _context.SaveChangesAsync();
