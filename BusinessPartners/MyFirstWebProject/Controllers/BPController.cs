@@ -15,7 +15,7 @@ namespace MyFirstWebProject.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class BPController : Controller
     {
         IBP_BL _bp;

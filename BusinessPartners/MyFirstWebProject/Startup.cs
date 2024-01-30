@@ -95,7 +95,8 @@ namespace MyFirstWebProject
                     ValidateIssuerSigningKey = true,
                     ValidateAudience = false,
                     ValidateIssuer = false,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Tokenkey))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding
+                    .UTF8.GetBytes(Tokenkey))
                 };
             });
             services.AddAuthorization();
@@ -138,7 +139,7 @@ namespace MyFirstWebProject
                     new Microsoft.Net.Http.Headers.CacheControlHeaderValue()
                     {
                         Public = true,
-                        MaxAge = TimeSpan.FromSeconds(60)
+                        MaxAge = TimeSpan.FromSeconds(600)
                     };
                 context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.Vary] =
                     new string[] { "Accept-Encoding" };

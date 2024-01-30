@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Entities;
 using DTO;
 using System.Threading;
+using System.Reflection;
 
 namespace DL
 {
@@ -18,6 +19,8 @@ namespace DL
         {
             _context = context;
         }
+   
+
         public async Task<Record> ReadBP(string columnName = null, string filterValue = null, int page = 1, int pageSize = 10)
         {
             Console.WriteLine("ReadBP begin on Thread with Id: " + Thread.CurrentThread.ManagedThreadId);
@@ -31,7 +34,7 @@ namespace DL
                 query = query.Where(bp => EF.Property<string>(bp, columnName) == filterValue);
             }
 
-            int totalRecords = await query.CountAsync();
+            int totalRecords =await query.CountAsync();
             int maxPages = (int)Math.Ceiling((double)totalRecords / pageSize);
 
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
