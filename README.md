@@ -1,7 +1,4 @@
 # Business Partners API
-***note** The  name "myfirstProject" sln is the default in my Visual Studio, I tried to change it but caused some errors. </br>
-Due to time constraints and the importance of the project, I decided to keep the default name for now. </br>
-Please note that this is not my first project, and I have successfully completed several projects in the past </br>
 
 This project provides a Web API for managing business partners. </br>
 It is built using C# with .NET 6 and SQL Server. The API supports various operations, </br>
@@ -32,7 +29,7 @@ git clone [https://github.com/your-username/business-partners-api.git](https://g
 
 # Error Handling
 This project includes error-handling middleware that catches exceptions and returns appropriate error responses. </br>
-Errors are logged using NLog, and the details can be found in the log files. </br>
+Errors are logged using NLog, The details can be found in the log files. </br>
 
 # Authentication and Authorization
 To perform certain operations, authentication is required.</br>
